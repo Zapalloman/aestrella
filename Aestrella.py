@@ -10,8 +10,8 @@ from heapq import heappush, heappop
 class nodo:
     def __init__(self, torres, padre, costo, num_discos=3):
         """
-        torres: lista de 3 listas, cada una representa una torre
-        cada torre contiene los discos ordenados de mayor a menor (base a tope)
+        Torres: lista de 3 listas, cada una representa una torre
+        cada torre contiene los discos ordenados de mayor a menor y de abajo hacia arriba
         """
         self.torres = deepcopy(torres)
         self.padre = padre
@@ -23,7 +23,7 @@ class nodo:
         return self.f < otroNodo.f
 
     def __str__(self):
-        """Representa visualmente las torres"""
+        """Representacion de las torres"""
         resultado = "Torres de Hanoi:\n"
         for i, torre in enumerate(self.torres):
             resultado += f"Torre {i+1}: {torre if torre else '[]'}\n"
@@ -33,23 +33,22 @@ class nodo:
         return self.torres == otroNodo.torres
 
     def __hash__(self):
-        """Permite usar el nodo en conjuntos y diccionarios"""
         return hash(str(self.torres))
 
     def heuristica(self):
         """
-        Heurística: Suma de discos que no están en la torre objetivo (torre 3)
+        Heuristica: Suma de discos que no están en la torre objetivo (torre 3)
         + penalización por discos mal ordenados en la torre objetivo
         """
         objetivo_torre = 2  # Torre 3 (índice 2)
         h = 0
         
-        # Contar discos que no están en la torre objetivo
+        # Contar discos que no están en la torre objetivo, la torre 3
         total_discos_objetivo = len(self.torres[objetivo_torre])
         discos_faltantes = self.num_discos - total_discos_objetivo
         h += discos_faltantes
-        
-        # Penalizar si los discos en la torre objetivo no están en orden correcto
+
+        # Penalizar si los discos en la torre objetivo no están en el orden correcto
         torre_objetivo = self.torres[objetivo_torre]
         for i in range(len(torre_objetivo) - 1):
             if torre_objetivo[i] < torre_objetivo[i + 1]:  # Debe estar ordenado de mayor a menor
@@ -63,7 +62,7 @@ class nodo:
             return False
         if not self.torres[torre_destino]:  # Torre destino vacía
             return True
-        # El disco superior de origen debe ser menor que el superior de destino
+        # El disco superior de origen debe ser menor que el superior de destino, grande abajo chico arriba
         return self.torres[torre_origen][-1] < self.torres[torre_destino][-1]
 
     def aplicaRegla(self, regla):
@@ -109,7 +108,7 @@ class nodo:
     def sucesores(self, ABIERTOS, CERRADOS):
         """Genera todos los sucesores válidos"""
         listaSucesores = []
-        for regla in range(1, 7):  # 6 posibles movimientos
+        for regla in range(1, 7): 
             sucesor = self.aplicaRegla(regla)
             if sucesor is not None and sucesor not in ABIERTOS and sucesor not in CERRADOS:
                 listaSucesores.append(sucesor)
@@ -161,7 +160,7 @@ def Aestrella(nodoInicial):
 #---- BLOQUE PRINCIPAL:
 
 def main():
-    # ESTADOS INICIALES DISPONIBLES PARA PRUEBAS:
+    # Estados iniciales para hacer pruebas:
     estados_disponibles = [
         {
             "nombre": "Estado 1 - Estándar",
@@ -185,7 +184,7 @@ def main():
         }
     ]
     
-    # CAMBIAR ESTE ÍNDICE (0-4) PARA PROBAR DIFERENTES ESTADOS INICIALES
+    # Elegir entre un indice entre 0-4 para probar los estados iniciales
     estado_elegido = 0
     
     torres_iniciales = estados_disponibles[estado_elegido]["torres"]
@@ -196,7 +195,7 @@ def main():
     print("=== TORRES DE HANOI CON A* ===")
     print(f"Probando: {nombre_estado}")
     print("Estado inicial:")
-    print(inicial)
+    print(inicial) #ver*
     print("Estado objetivo: Todos los discos en Torre 3")
     print("\nEjecutando A*...")
     

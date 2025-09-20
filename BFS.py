@@ -10,8 +10,8 @@ from heapq import heappush, heappop
 class nodo:
     def __init__(self, torres, padre, costo, num_discos=3):
         """
-        torres: lista de 3 listas, cada una representa una torre
-        cada torre contiene los discos ordenados de mayor a menor (base a tope)
+        Torres: lista de 3 listas, cada una representa una torre
+        cada torre contiene los discos ordenados de mayor a menor de la base al tope
         """
         self.torres = deepcopy(torres)
         self.padre = padre
@@ -22,7 +22,7 @@ class nodo:
         return self.costo < otroNodo.costo
 
     def __str__(self):
-        """Representa visualmente las torres"""
+        """Representacion de las torres"""
         resultado = "Torres de Hanoi:\n"
         for i, torre in enumerate(self.torres):
             resultado += f"Torre {i+1}: {torre if torre else '[]'}\n"
@@ -32,16 +32,15 @@ class nodo:
         return self.torres == otroNodo.torres
 
     def __hash__(self):
-        """Permite usar el nodo en conjuntos y diccionarios"""
         return hash(str(self.torres))
 
     def es_movimiento_valido(self, torre_origen, torre_destino):
-        """Verifica si un movimiento es válido según las reglas de Hanoi"""
-        if not self.torres[torre_origen]:  # Torre origen vacía
+        """Verifica  según las reglas de Hanoi"""
+        if not self.torres[torre_origen]:  # Torre origen vacía :D
             return False
-        if not self.torres[torre_destino]:  # Torre destino vacía
+        if not self.torres[torre_destino]:  # Torre destino vacía :D
             return True
-        # El disco superior de origen debe ser menor que el superior de destino
+        # el disco que se mueva debe ser mas pequeño que el disco en la torre destino
         return self.torres[torre_origen][-1] < self.torres[torre_destino][-1]
 
     def aplicaRegla(self, regla):
@@ -79,9 +78,9 @@ class nodo:
         return nodo(nuevas_torres, self, self.costo + 1, self.num_discos)
 
     def sucesores(self, ABIERTOS, CERRADOS):
-        """Genera todos los sucesores válidos"""
+        """sucesores válidos"""
         listaSucesores = []
-        for regla in range(1, 7):  # 6 posibles movimientos
+        for regla in range(1, 7):
             sucesor = self.aplicaRegla(regla)
             if sucesor is not None and sucesor not in ABIERTOS and sucesor not in CERRADOS:
                 listaSucesores.append(sucesor)
@@ -148,7 +147,7 @@ def busquedaNoInformada(nodoInicial, esquema):
 #---- BLOQUE PRINCIPAL:
 
 def main():
-    # ESTADOS INICIALES DISPONIBLES PARA PRUEBAS:
+    # Estados para probar:
     estados_disponibles = [
         {
             "nombre": "Estado 1 - Estándar",
@@ -172,7 +171,7 @@ def main():
         }
     ]
     
-    # CAMBIAR ESTE ÍNDICE (0-4) PARA PROBAR DIFERENTES ESTADOS INICIALES
+    # elegir entre 0-4 para probar los estados iniciales
     estado_elegido = 0
     
     # Cambiar el esquema por "BFS", "DFS", "UCS"

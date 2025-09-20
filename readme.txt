@@ -7,6 +7,7 @@ Nombre del Juego: Torres de Hanoi
 Enlace a algún sitio para poder comprender en qué consiste la versión del juego que consideraste:
 https://es.wikipedia.org/wiki/Torres_de_Hanoi
 https://www.mathsisfun.com/games/towerofhanoi.html
+https://www.youtube.com/watch?v=lilBGvaOSy8
 
 Heurística implementada:
 La heurística utilizada en el algoritmo A* combina dos factores:
